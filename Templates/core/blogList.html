@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>وبلاگ</h2>
+                        <br/>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'core:index' %}">خانه</a>
+                            <span>وبلاگ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Blog Section Begin -->
+    <section class="blog spad">
+        <div class="container">
+            <div class="row">
+                {% if count > 0 %}
+
+                    <div class="col-lg-4 col-md-5 text-right">
+                        <div class="blog__sidebar">
+                            <div class="blog__sidebar__item">
+                                <h4>جدید ترین پست ها</h4>
+                                <div class="blog__sidebar__recent">
+                                    {% for last in lastBlog %}
+                                        <a href="{{ last.get_absolute_url }}" class="blog__sidebar__recent__item">
+                                            <div class="blog__sidebar__recent__item__pic float-right">
+                                                <img src="{{ last.image.url }}" alt=""
+                                                     style="width: 70px; height: 70px"/>
+                                            </div>
+                                            <div class="blog__sidebar__recent__item__text text-center">
+                                                <h6>{{ last.title }}</h6>
+                                                <span>
+                                        {{ last.day }}
+                                        {{ last.month }}
+                                        {{ last.year }}
+                                    </span>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-7">
+                        <div class="row">
+                            {% for post in page_obj %}
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="blog__item">
+                                        <div class="blog__item__pic">
+                                            <img src="{{ post.image.url }}" alt=""/>
+                                        </div>
+                                        <div class="blog__item__text text-center">
+                                            <ul>
+                                                <li>
+                                                    <i class="fa fa-calendar-o"></i>
+                                                    {{ post.day }}
+                                                    {{ post.month }}
+                                                    {{ post.year }}
+                                                </li>
+                                            </ul>
+                                            <h5>
+                                                <a href="{{ post.get_absolute_url }}">
+                                                    {{ post.title }}
+                                                </a>
+                                            </h5>
+                                            <p>{{ post.snippet }}</p>
+                                            <a href="{{ post.get_absolute_url }}" class="blog__btn">
+                                                بیشتر <span class="arrow_left"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="product__pagination text-center">
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}">
+                                    <i class="fa fa-long-arrow-right"></i>
+                                </a>
+                            {% endif %} {% for page in page_range %}
+                            {% if page <= page_obj.number|add:1 and page >= page_obj.number|add:-1 %}
+                                {% if page == page_obj.number %}
+                                    <a href="?page={{ page }}"
+                                       style="background-color: #f3d346; color: #fff">{{ page }}</a>
+                                {% else %}
+                                    <a href="?page={{ page }}">{{ page }}</a>
+                                {% endif %} {% endif %} {% endfor %} {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">
+                                <i class="fa fa-long-arrow-left"></i>
+                            </a>
+                        {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12 text-center">
+                        <p style="font-size: 25px">
+                            متاسفانه پستی وجود ندارد.
+                        </p>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+    <!-- Blog Section End -->
+{% endblock %}

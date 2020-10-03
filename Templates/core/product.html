@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block keywords %}{{ product.keywords }}{% endblock %}
+{% block head_title %}
+    {{ product.title }}
+{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb Section Begin -->
+    <section
+            class="breadcrumb-section set-bg"
+            data-setbg="{% static 'img/breadcrumb.jpg' %}"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>{{ product.title }}</h2>
+                        <br>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'core:index' %}">خانه</a>
+                            <a href="{% url 'core:category' product.category %}">{{ product.get_category_display }}</a>
+                            <span>{{ product.title }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <style>
+        .nav-tabs .nav-item.show .nav-link,
+        .nav-tabs .nav-link.active {
+            color: #fff;
+            background-color: #000;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+    </style>
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6" style="direction: ltr">
+                    <div class="product__details__pic">
+
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                 src="{{ product.singleImage.url }}" alt="">
+                        </div>
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-imgbigurl="{{ product.singleImage.url }}"
+                                 src="{{ product.singleImage.url }}" alt="">
+                            {% for image in images %}
+                                <img data-imgbigurl="{{ image.img.url }}"
+                                     src="{{ image.img.url }}" alt="">
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{ product.title }}</h3>
+                        <div class="product__details__price">
+                            {% if product.discount_price %}
+                                <del style="color:#ff0000;">{{ product.price }} تومان</del>
+                                <br>
+                                {{ product.discount_price }}
+                                تومان
+                            {% else %}
+                                {{ product.price }} تومان
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'core:Like' product.slug %}" class="heart-icon">
+                            <span class="icon_heart_alt"></span>
+                        </a>
+                        <a href="{{ product.get_add_to_cart_url }}" class="primary-btn">افزودن به سبد خرید</a>
+                        <ul>
+                            <li>
+                                <b style="font-size: 25px">لایک ها : </b>
+                                <span style="font-size: 25px"> {{ product.Llikes }} </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                   aria-selected="true">نقد و بررسی</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                   aria-selected="false">مشخصات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                   aria-selected="false">نظرات</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content text-right">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h4>نقد و بررسی اجمالی</h4>
+                                    <br>
+                                    <p>
+                                        {{ product.description }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h4>مشخصات فنی</h4>
+                                    <br>
+                                    <table class="table table-bordered" style="background: #f3d346;color: #000">
+                                        {% if Information %}
+
+                                            {% for information in Information %}
+                                                <tr>
+                                                    <td>{{ information.title }}</td>
+                                                    <td>{{ information.body }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <tr>
+                                                <td>هنوز مشخصاتی وجود ندارد</td>
+                                            </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h4>نظرات کاربران :</h4>
+                                    <br>
+                                    <ul class="list-group">
+                                        {% for comment in comments %}
+                                            <li class="list-group-item"
+                                                style="background: #f3d346;color: #000">
+                                                از استاد
+                                                {{ comment.name }}</li>
+                                            <li class="list-group-item">{{ comment.body }}</li>
+                                            <hr>
+                                        {% empty %}
+                                            <br>
+                                            <li class="list-group-item" style="background: #f3d346;color: #000">اولین
+                                                نفری باشید که نظر میدهد
+                                            </li>
+                                            <br>
+                                        {% endfor %}
+                                    </ul>
+                                    {% if new_comment %}
+                                        <h2 class="text-center">نظر شما پس از تایید مدیر نمایش داده میشود.</h2>
+                                        <script>alert("نظر شما پس از تایید مدیر نمایش داده میشود.")</script>
+                                    {% else %}
+                                        <h2 class="text-center">
+                                            افزودن نظر
+                                        </h2>
+                                        <form action="" method="post">
+                                            {{ comments_form }}
+                                            {% csrf_token %}
+                                            <br>
+                                            <input
+                                                    type="submit"
+                                                    name="CB"
+                                                    value="افزودن نظر"
+                                                    class="btn"
+                                                    style="background: #f3d346;color: #000;width: 100%;"
+                                            >
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>محصولات مشابه</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for ler in related %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="{{ ler.singleImage.url }}">
+                                <ul class="product__item__pic__hover">
+                                    <li>
+                                        <a href="{% url 'core:Like' product.slug %}">
+                                            <i class="fa fa-heart"></i>
+                                        </a>
+                                    </li>
+                                    <li><a href="{{ ler.get_add_to_cart_url }}"><i class="fa fa-shopping-cart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="{% url 'core:product' ler.slug %}">{{ ler.title }}</a></h6>
+                                <h5>
+                                    {{ ler.price }}
+                                    تومان
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

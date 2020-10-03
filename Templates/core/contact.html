@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>تماس با ما</h2>
+                        <br>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'core:index' %}">خانه</a>
+                            <span>تماس با ما</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
+                    <div class="contact__widget">
+                        <span class="icon_phone"></span>
+                        <h4>تلفن</h4>
+                        <p>
+                            09124650347
+                        </p>
+                        <p>
+                            09198124650
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
+                    <div class="contact__widget">
+                        <span class="icon_pin_alt"></span>
+                        <h4>آدرس</h4>
+                        <p>
+                            شهرری محله ی اقدسیه خیابان پیلغوش خیابان طرق رودی کوچه ی حسن کریم پلاک 3
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
+                    <div class="contact__widget">
+                        <span class="icon_mail_alt"></span>
+                        <h4>ایمیل</h4>
+                        <p>
+                            info@sitoplusgallery.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+
+    <!-- Map Begin -->
+    <div class="map">
+        <iframe
+                src="
+https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6488.747267269319!2d51.44933522591316!3d35.59384899517559!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f91fbf6b3eae54d%3A0xd8d4b8c0acf0a580!2z2KfZgtiv2LPbjNmHINi02YfYsdix24zYjCDZhdmG2LfZgtmHINuy27DYjCDYqtmH2LHYp9mG2Iwg2KfYs9iq2KfZhiDYqtmH2LHYp9mG2Iwg2KfbjNix2KfZhg!5e0!3m2!1sfa!2s!4v1593063140700!5m2!1sfa!2s                "
+                height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        <div class="map-inside">
+            <div class="inside-widget">
+                <h4>تهران</h4><br>
+                <ul>
+                    <li>
+                        تلفن: 09124650347
+                    </li>
+                    <li>
+                        تلفن: 09198124650
+                    </li>
+                    <li>
+                        آدرس: شهرری محله ی اقدسیه خیابان پیلغوش خیابان طرق رودی کوچه ی حسن کریم پلاک 3
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Map End -->
+
+    <!-- Contact Form Begin -->
+    <div class="contact-form spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="contact__form__title">
+                        <h2>تماس با ما</h2>
+                    </div>
+                </div>
+            </div>
+            <form action="" method="post" class="text-right">
+                {{ contact }}
+                <br>
+                <p class="form-group">
+                    <input
+                            type="submit"
+                            name="send"
+                            value="ارسال"
+                            class="btn"
+                            style="background: #f3d346;color: #000;border: none"
+                    >
+                </p>
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    <!-- Contact Form End -->
+{% endblock %}

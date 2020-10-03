@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block head_title %}
+    خروج از حساب کاربری
+{% endblock %}
+{% block content %}
+    <!-- Breadcrumb Section Begin -->
+    <section
+            class="breadcrumb-section set-bg"
+            data-setbg="{% static 'img/breadcrumb.jpg' %}"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>خروج از حساب کاربری</h2>
+                        <br>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'core:index' %}">خانه</a>
+                            <span>خروج از حساب کاربری</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <br>
+                    <br>
+                    <h4>{% trans "خروج از حساب کاربری" %}</h4>
+                    <br>
+                    <hr>
+                    <p>{% trans 'آیا مطمئن هستید که می‌خواهید از سیستم خارج شوید؟' %}</p>
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        <button class="btn btn-danger" type="submit" style="width: 100%;">{% trans 'خروج' %}</button>
+                    </form>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
